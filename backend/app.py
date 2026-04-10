@@ -1,3 +1,7 @@
+import sys
+import os
+# Add parent directory (PacketCapture) to path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from flask import Flask, request, jsonify, send_file
 import joblib
 import numpy as np
@@ -8,6 +12,8 @@ from scapy.all import sniff
 from scapy.layers.inet import TCP
 from scapy.layers.inet import IP
 from scapy.layers.inet import UDP
+
+from quant.ema.ema_api import update_ema
 
 app2 = Flask(__name__)
 latest_pkt = {
@@ -97,6 +103,11 @@ def packet_sniffer():
                 "tcp_count": tcp_count,
                 "udp_count": udp_count
             })
+            value = len(pkt)
+            ema_result = update_ema(value)
+            latest_pkt["ema"] = ema_result["ema"]
+            latest_pkt["trend"] = ema_result["trend"]
+            latest_pkt["ema_history"] = ema_result["history"]
             print(pkt.summary())
             if total_packets % 10 == 0:
                 log_packet(pkt)
@@ -224,6 +235,12 @@ def extract_features(flow, proto):
         vector[75] = max(idle)
         vector[76] = min(idle)
 
+    value = vector[14]
+    ema_result = update_ema(value)
+    latest_pkt["ema"] = ema_result["ema"]
+    latest_pkt["trend"] = ema_result["trend"]
+    latest_pkt["ema_history"] = ema_result["history"]
+
     return vector
 
 def predict(features):
@@ -275,7 +292,7 @@ def log_packet(pkt):
 
 @app2.route("/")
 def home():
-    return send_file("front2.html")
+    return send_file("index.html")
 
 @app2.route('/live_packet')
 def get_pkt():
