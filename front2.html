@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantitative Network Traffic Analysis & Cyber Threat Detection System</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segue UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+        }
+        header {
+            background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        header p {
+            margin: 10px 0 0;
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+        nav {
+            background-color: #343a40;
+            padding: 15px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            text-align: center;
+        }
+        nav ul li {
+            display: inline;
+            margin: 0 20px;
+        }
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 12px;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+        nav ul li a:hover {
+            background-color: #007bff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-left: 4px solid #007bff;
+            background: #f8f9fa;
+            border-radius: 0 8px 8px 0;
+        }
+        .section h2 {
+            color: #007bff;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section h2 i {
+            font-size: 1.2em;
+        }
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-top: 4px solid #007bff;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        .card h3 {
+            margin: 0 0 15px;
+            color: #007bff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .card h3 i {
+            color: #28a745;
+        }
+        .alert {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .threat-level {
+            font-size: 28px;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+        .low { color: #28a745; }
+        .medium { color: #ffc107; }
+        .high { color: #dc3545; }
+        #trafficChart {
+            max-height: 300px;
+            margin-top: 15px;
+        }
+        footer {
+            background-color: #343a40;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 40px;
+        }
+        table th, table td{
+            padding: 10px;
+            text-align: center;
+        }
+        table tbody tr{
+            transition: 0.2s;
+        }
+        .attack{
+            background: #f8d7da;
+        }
+        .normal {
+            background: #d4edda;
+        }
+        .dashboard-grid .card:last-child {
+            grid-column: 1/-1;
+            min-height: 400px;
+        }
+        .chart-cont{
+            position: relative;
+            height: 350px;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            nav ul li {
+                display: block;
+                margin: 10px 0;
+            }
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-shield-alt"></i> Quantitative Network Traffic Analysis & Cyber Threat Detection System</h1>
+        <p>Intelligent Analysis for Secure Networks</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="#intro"><i class="fas fa-info-circle"></i> Introduction</a></li>
+            <li><a href="#concept"><i class="fas fa-lightbulb"></i> Concept</a></li>
+            <li><a href="#innovation"><i class="fas fa-cogs"></i> Innovation</a></li>
+            <li><a href="#applications"><i class="fas fa-globe"></i> Applications</a></li>
+            <li><a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+            <li><a href="#livemonitor"><i class="fas fa-tachometer-alt"></i> Live Packets</a></li>
+            <li><a href="#conclusion"><i class="fas fa-check-circle"></i> Conclusion</a></li>
+        </ul>
+    </nav>
+
+    <div class="container">
+        <section id="intro" class="section">
+            <h2><i class="fas fa-door-open"></i> Introduction</h2>
+            <p>In today’s digital world, computer networks play a vital role in communication, business operations, and data sharing. With the rapid growth of internet usage, cyber threats such as malware attacks, data breaches, denial-of-service (DoS) attacks, and unauthorized access have also increased significantly. Traditional security systems often rely on predefined rules and signature-based detection methods, which are not sufficient to detect new and evolving cyber threats. To overcome these limitations, the Quantitative Network Traffic Analysis and Cyber Threat Detection System is proposed as an innovative and intelligent solution.</p>
+        </section>
+
+        <section id="concept" class="section">
+            <h2><i class="fas fa-brain"></i> Concept of the System</h2>
+            <p>This system focuses on analyzing network traffic using quantitative techniques such as statistical analysis, pattern recognition, and machine learning models. Instead of only depending on known attack signatures, it continuously monitors network data packets and extracts meaningful features like packet size, flow duration, protocol type, source and destination IP addresses, and traffic frequency. These quantitative parameters help in identifying abnormal behavior in real time.</p>
+        </section>
+
+        <section id="innovation" class="section">
+            <h2><i class="fas fa-rocket"></i> Innovation and Working Principle</h2>
+            <p>The innovation of this system lies in its ability to detect cyber threats proactively by learning normal network behavior and identifying deviations from it. The system uses advanced algorithms to create a baseline model of regular traffic patterns. When unusual activity occurs, such as sudden traffic spikes, repeated failed login attempts, or suspicious data transfers, the system automatically flags it as a potential threat.</p>
+            <p>Machine learning techniques such as anomaly detection, classification, and clustering are used to improve accuracy over time. As more data is analyzed, the system becomes smarter and more efficient in distinguishing between legitimate traffic and malicious activity. This adaptive learning capability makes the system suitable for modern and complex network environments.</p>
+            <div class="alert">
+                <div>
+                    <strong><i class="fas fa-exclamation-triangle"></i> Current Threat Level:</strong>
+                </div>
+                <span class="threat-level low">Low</span>
+            </div>
+        </section>
+
+        <section id="applications" class="section">
+            <h2><i class="fas fa-network-wired"></i> Applications</h2>
+            <p>The Quantitative Network Traffic Analysis and Cyber Threat Detection System can be applied in various domains such as corporate networks, cloud computing platforms, banking systems, educational institutions, and government organizations. It helps network administrators monitor traffic, prevent cyberattacks, and ensure data confidentiality and integrity.</p>
+        </section>
+
+        <section id="dashboard" class="section">
+            <h2><i class="fas fa-chart-bar"></i> Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3><i class="fas fa-eye"></i> Traffic Overview</h3>
+                    <p><strong>Total Packets:</strong><span id="packetCount">0</span><i class="fas fa-packet" style="color: #007bff;"></i></p>
+                    <p><strong>Suspicious Flows:</strong><span id="suspiciousCount">0</span><i class="fas fa-exclamation" style="color: #ffc107;"></i></p>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-history"></i> Threat History</h3>
+                    <p><strong>Today's Alerts:</strong><span id="alertCount">0</span><i class="fas fa-bell"></i></p>
+                    <p><strong>Actions Taken:</strong><span id="actionCount">0</span><i class="fas fa-ban"></i></p>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-code-branch"></i> Protocol Breakdown</h3>
+                    <p><strong>TCP:</strong> 60% <i class="fas fa-arrow-right" style="color: #28a745;"></i></p>
+                    <p><strong>UDP:</strong> 30% <i class="fas fa-arrow-right" style="color: #17a2b8;"></i></p>
+                    <p><strong>Other:</strong> 10% <i class="fas fa-ellipsis-h" style="color: #6c757d;"></i></p>
+                </div>
+                <div class="card">
+                    <h3><i class="fas fa-chart-line"></i> Traffic Over Time</h3>
+                    <div class="chart-cont">
+                    <canvas id="trafficChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section id="livemonitor" class="section">
+            <h2><i class="fas fa-network-wired"></i>Live Packet Monitor</h2>
+            <div class="card">
+                <table style="width:100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background:#007bff; color:white;">
+                            <th>Time</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Protocol</th>
+                            <th>Size (bytes)</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="packetTable"></tbody>
+                </table>
+            </div>
+        </section>
+        <section id="conclusion" class="section">
+            <h2><i class="fas fa-flag-checkered"></i> Conclusion</h2>
+            <p>In conclusion, this innovative system provides a reliable and intelligent approach to cybersecurity by combining quantitative analysis with advanced detection techniques. It enhances network protection, reduces response time to threats, and supports a safer digital environment. By adopting this system, organizations can effectively defend against both known and unknown cyberattacks, making it a valuable innovation in the field of network security.</p>
+        </section>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 Quantitative Network Traffic Analysis System. All rights reserved. | Built with ❤️ for secure networks</p>
+    </footer>
+
+    <script>
+        // Initialize Chart.js for traffic over time
+        const ctx = document.getElementById('trafficChart').getContext('2d');
+        const trafficChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Packet Size',
+                    data: [],
+                    borderColor: '#007bff',
+                    backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                    tension: 0.4,
+                    fill: true
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true }
+                }
+            }
+        });
+
+    async function getPrediction(){
+
+    let result;
+    try {
+        const response = await fetch("/live_packet");
+        result = await response.json();
+    } catch (err) {
+        console.log("Fetch error:", err);
+        return;
+    }
+    console.log("LIVE DATA:",result);
+    document.getElementById("packetCount").textContent = result.total_packets;
+
+    document.getElementById("suspiciousCount").textContent = result.tcp_count;
+    document.getElementById("alertCount").textContent = result.udp_count;
+    document.getElementById("actionCount").textContent = "Running";
+
+    const element = document.querySelector(".threat-level");
+    const pred = (result.prediction || "").toLowerCase();
+    if(pred.includes("benign")||pred==="0") {
+        element.textContent = "Low";
+        element.className = "threat-level low";
+    } else if(pred==="detecting..."||pred===""){
+        element.textContent = "Analyzing";
+        element.className = "threat-level medium";
+    } else {
+        element.textContent = "High";
+        element.className = "threat-level high";
+    }
+
+    const tcp = result.tcp_count || 0;
+    const udp = result.udp_count || 0;
+    const total = result.total_packets || 1;
+
+    const tcpPercent = ((tcp / total) * 100).toFixed(1);
+    const udpPercent = ((udp / total) * 100).toFixed(1);
+    const otherPercent = (100 - tcpPercent - udpPercent).toFixed(1);
+
+    document.querySelector(".card:nth-child(3)").innerHTML = `
+    <h3><i class="fas fa-code-branch"></i> Protocol Breakdown</h3>
+    <p><strong>TCP:</strong> ${tcpPercent}%</p>
+    <p><strong>UDP:</strong> ${udpPercent}%</p>
+    <p><strong>Other:</strong> ${otherPercent}%</p>`;
+
+    const pred2 = String(result.prediction || "").toLowerCase();
+
+    let isAttack = pred2.includes("attack");
+
+    let protoName = "OTHER";
+    if(result.protocol == 6) protoName = "TCP";
+    else if(result.protocol == 17) protoName = "UDP";
+
+    let color = "#d4edda"; // default green
+    if(result.protocol == 17) color = "#d1ecf1"; // UDP blue
+    if(isAttack) color = "#f8d7da"; // attack red
+
+    const table = document.getElementById("packetTable");
+
+    const row = `<tr style="background:${color}">
+    <td>${result.timestamp || "-"}</td>
+    <td>${result.src_ip || "-"}</td>
+    <td>${result.dst_ip || "-"}</td>
+    <td>${protoName}</td>
+    <td>${result.packet_size}</td>
+    <td>${isAttack ? "Attack!" : "Normal"}</td>
+    </tr>`;
+
+    table.innerHTML = row + table.innerHTML;
+
+    if(table.rows.length > 10){
+        table.deleteRow(10);
+    }
+
+    const time = result.timestamp || "NA";
+    const size = result.packet_size || 0;
+
+    trafficChart.data.labels.push(time);
+    trafficChart.data.datasets[0].data.push(size);
+
+    if(trafficChart.data.labels.length > 10){
+        trafficChart.data.labels.shift();
+        trafficChart.data.datasets[0].data.shift();
+    }
+
+    trafficChart.update();
+}
+
+setInterval(getPrediction,2000);
+    </script>
+</body>
+</html>
