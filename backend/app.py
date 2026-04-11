@@ -2,7 +2,7 @@ import sys
 import os
 # Add parent directory (PacketCapture) to path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, jsonify, send_file
 import joblib
 import numpy as np
 from datetime import datetime

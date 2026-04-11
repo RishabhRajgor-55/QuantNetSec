@@ -246,6 +246,9 @@
                     <div class="chart-cont">
                     <canvas id="trafficChart"></canvas>
                     </div>
+                    <div>
+                        <canvas id="emaChart"></canvas>
+                    </div>
                 </div>
             </div>
         </section>
@@ -303,6 +306,25 @@
             }
         });
 
+    const emaCtx = document.getElementById('emaChart').getContext('2d');
+    const emaChart = new Chart (emaCtx, {
+        type: 'line',
+        data: {
+            labels: [],
+            datasets: [
+    {
+        label: 'Raw Value',
+        data: [],   // ✅ correct
+        borderColor: 'gray'
+    },
+    {
+        label: 'EMA',
+        data: [],   // ✅ correct
+        borderColor: 'red'
+    }
+]
+        }
+    });
     async function getPrediction(){
 
     let result;
@@ -313,6 +335,7 @@
         console.log("Fetch error:", err);
         return;
     }
+    if(result.timestamp == 'START') return
     console.log("LIVE DATA:",result);
     document.getElementById("packetCount").textContent = result.total_packets;
 
@@ -386,7 +409,18 @@
         trafficChart.data.labels.shift();
         trafficChart.data.datasets[0].data.shift();
     }
+    if(result.ema_history){
 
+    if (result.ema_history && result.ema_history.raw.length > 0) {
+
+    emaChart.data.labels = result.ema_history.raw.map((_, i) => i);
+
+    emaChart.data.datasets[0].data = [...result.ema_history.raw];
+    emaChart.data.datasets[1].data = [...result.ema_history.ema];
+
+    emaChart.update();
+    }
+    }
     trafficChart.update();
 }
 
