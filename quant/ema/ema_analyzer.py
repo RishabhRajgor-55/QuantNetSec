@@ -1,10 +1,10 @@
 def analyze(ema_values):
+
     if len(ema_values) < 5:
         return {
             "trend": "stable",
             "trend_flag": False
         }
-
     if ema_values[-1] > ema_values[-5]:
         return {
             "trend": "increasing",
