@@ -9,6 +9,7 @@ def update_ema(value):
     ema_val = ema_model.update(value)
     storage.add(value, ema_val)
     analysis = analyze(storage.ema_values)
+
     return {
         "ema":float(ema_val),
         "trend": analysis["trend"],
