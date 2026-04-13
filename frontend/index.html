@@ -165,6 +165,11 @@
             height: 350px;
             width: 100%;
         }
+        canvas#emaChart {
+            background: #1e1e2f;
+            border-radius: 10px;
+            padding: 10px;
+        }
         @media (max-width: 768px) {
             nav ul li {
                 display: block;
@@ -307,24 +312,54 @@
         });
 
     const emaCtx = document.getElementById('emaChart').getContext('2d');
-    const emaChart = new Chart (emaCtx, {
-        type: 'line',
-        data: {
-            labels: [],
-            datasets: [
-    {
-        label: 'Raw Value',
-        data: [],
-        borderColor: 'gray'
+
+const emaChart = new Chart(emaCtx, {
+    type: 'line',
+    data: {
+        labels: [],
+        datasets: [
+            {
+                label: 'Raw Value',
+                data: [],
+                borderColor: '#00d4ff',     // light blue
+                backgroundColor: 'rgba(0,212,255,0.1)',
+                borderWidth: 2,
+                tension: 0.4
+            },
+            {
+                label: 'EMA',
+                data: [],
+                borderColor: '#ffd700',     // gold/yellow
+                backgroundColor: 'rgba(255,215,0,0.1)',
+                borderWidth: 3,
+                tension: 0.4
+            }
+        ]
     },
-    {
-        label: 'EMA',
-        data: [],
-        borderColor: 'red'
-    }
-]
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: {
+                labels: {
+                    color: '#ffffff'
+                }
+            }
+        },
+
+        scales: {
+            x: {
+                ticks: { color: '#aaa' },
+                grid: { color: 'rgba(255,255,255,0.1)' }
+            },
+            y: {
+                ticks: { color: '#aaa' },
+                grid: { color: 'rgba(255,255,255,0.1)' }
+            }
         }
-    });
+    }
+});
     async function getPrediction(){
 
     let result;
@@ -409,18 +444,26 @@
         trafficChart.data.labels.shift();
         trafficChart.data.datasets[0].data.shift();
     }
-    if(result.ema_history){
-
     if (result.ema_history && result.ema_history.raw.length > 0) {
 
-    emaChart.data.labels = result.ema_history.raw.map((_, i) => i);
+    const raw = result.ema_history.raw.at(-1);
+    const ema = result.ema_history.ema.at(-1);
 
-    emaChart.data.datasets[0].data = [...result.ema_history.raw];
-    emaChart.data.datasets[1].data = [...result.ema_history.ema];
+    const time = result.timestamp;
+
+    emaChart.data.labels.push(time);
+    emaChart.data.datasets[0].data.push(raw);
+    emaChart.data.datasets[1].data.push(ema);
+
+    // keep last 20 points (spread nicely)
+    if (emaChart.data.labels.length > 20) {
+        emaChart.data.labels.shift();
+        emaChart.data.datasets[0].data.shift();
+        emaChart.data.datasets[1].data.shift();
+    }
 
     emaChart.update();
-    }
-    }
+}
     trafficChart.update();
 }
 
