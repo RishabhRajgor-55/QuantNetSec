@@ -170,6 +170,31 @@
             border-radius: 10px;
             padding: 10px;
         }
+        #emaChart {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            border-radius: 10px;
+            padding: 10px;
+        }
+        .ema-section {
+            margin-top: 20px;
+        }
+
+        .ema-title {
+            color: #ffffff;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            padding: 10px 15px;
+            border-radius: 8px 8px 0 0;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .ema-container {
+            height: 400px;
+            width: 100%;
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            border-radius: 0 0 10px 10px;
+            padding: 10px;
+        }
         @media (max-width: 768px) {
             nav ul li {
                 display: block;
@@ -251,8 +276,11 @@
                     <div class="chart-cont">
                     <canvas id="trafficChart"></canvas>
                     </div>
-                    <div>
-                        <canvas id="emaChart"></canvas>
+                    <div class="ema-section">
+                        <h4 class="ema-title">EMA + Bollinger Bands Analysis</h4>
+                        <div class="ema-container">
+                            <canvas id="emaChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -282,7 +310,7 @@
     </div>
 
     <footer>
-        <p>&copy; 2026 Quantitative Network Traffic Analysis System. All rights reserved. | Built with ❤️ for secure networks</p>
+        <p>&copy; 2026 Quantitative Network Traffic Analysis System. All rights reserved. | Built for secure networks</p>
     </footer>
 
     <script>
@@ -319,42 +347,53 @@ const emaChart = new Chart(emaCtx, {
         labels: [],
         datasets: [
             {
-                label: 'Raw Value',
+                label: 'Raw',
                 data: [],
-                borderColor: '#00d4ff',     // light blue
-                backgroundColor: 'rgba(0,212,255,0.1)',
-                borderWidth: 2,
-                tension: 0.4
+                borderColor: '#00e5ff',   // cyan
+                tension: 0.3
             },
             {
                 label: 'EMA',
                 data: [],
-                borderColor: '#ffd700',     // gold/yellow
-                backgroundColor: 'rgba(255,215,0,0.1)',
-                borderWidth: 3,
-                tension: 0.4
+                borderColor: '#ffea00',
+                borderWidth: 2,
+                tension: 0.4,
+                pointRadius: 0,
+                borderJoinStyle: 'round'
+            },
+            {
+                label: 'Upper Band',
+                data: [],
+                borderColor: '#ff4081',   // pink
+                borderDash: [5,5],
+                tension: 0.3
+            },
+            {
+                label: 'Lower Band',
+                data: [],
+                borderColor: '#7c4dff',   // violet
+                borderDash: [5,5],
+                tension: 0.3
             }
         ]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
-
         plugins: {
             legend: {
                 labels: {
-                    color: '#ffffff'
+                    color: 'white'
                 }
             }
         },
-
         scales: {
             x: {
-                ticks: { color: '#aaa' },
+                ticks: { color: 'white' },
                 grid: { color: 'rgba(255,255,255,0.1)' }
             },
             y: {
-                ticks: { color: '#aaa' },
+                ticks: { color: 'white' },
                 grid: { color: 'rgba(255,255,255,0.1)' }
             }
         }
@@ -446,21 +485,14 @@ const emaChart = new Chart(emaCtx, {
     }
     if (result.ema_history && result.ema_history.raw.length > 0) {
 
-    const raw = result.ema_history.raw.at(-1);
-    const ema = result.ema_history.ema.at(-1);
+    const h = result.ema_history;
 
-    const time = result.timestamp;
+    emaChart.data.labels = h.raw.map((_, i) => i);
 
-    emaChart.data.labels.push(time);
-    emaChart.data.datasets[0].data.push(raw);
-    emaChart.data.datasets[1].data.push(ema);
-
-    // keep last 20 points (spread nicely)
-    if (emaChart.data.labels.length > 20) {
-        emaChart.data.labels.shift();
-        emaChart.data.datasets[0].data.shift();
-        emaChart.data.datasets[1].data.shift();
-    }
+    emaChart.data.datasets[0].data = [...h.raw];
+    emaChart.data.datasets[1].data = [...h.ema];
+    emaChart.data.datasets[2].data = [...h.upper];
+    emaChart.data.datasets[3].data = [...h.lower];
 
     emaChart.update();
 }
