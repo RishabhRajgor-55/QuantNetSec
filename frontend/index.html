@@ -39,7 +39,6 @@
       overflow-x: hidden;
     }
 
-    /* ── Grid noise overlay ── */
     body::before {
       content:'';
       position:fixed; inset:0; pointer-events:none; z-index:0;
@@ -48,10 +47,7 @@
         repeating-linear-gradient(90deg,  transparent, transparent 39px, rgba(0,212,255,0.025) 40px);
     }
 
-    /* ── Ambient orbs ── */
-    .orb {
-      position:fixed; border-radius:50%; filter:blur(90px); pointer-events:none; z-index:0;
-    }
+    .orb { position:fixed; border-radius:50%; filter:blur(90px); pointer-events:none; z-index:0; }
     .orb-a { width:500px; height:500px; top:-120px; left:-80px;  background:rgba(0,212,255,0.07); }
     .orb-b { width:400px; height:400px; bottom:-80px; right:-60px; background:rgba(139,92,246,0.08); }
     .orb-c { width:300px; height:300px; top:40%; left:45%; background:rgba(245,200,66,0.05); }
@@ -63,9 +59,7 @@
       padding: 28px 32px 60px;
     }
 
-    /* ══════════════════════════════
-       TOPBAR
-    ══════════════════════════════ */
+    /* ── TOPBAR ── */
     .topbar {
       display:flex; align-items:center; justify-content:space-between;
       padding: 16px 24px;
@@ -75,10 +69,7 @@
       margin-bottom: 28px;
       backdrop-filter: blur(12px);
     }
-
-    .logo {
-      display:flex; align-items:center; gap:12px;
-    }
+    .logo { display:flex; align-items:center; gap:12px; }
     .logo-icon {
       width:38px; height:38px;
       background: linear-gradient(135deg,#0d1117,#1a2535);
@@ -88,58 +79,33 @@
       box-shadow: 0 0 14px var(--glow-c);
     }
     .logo-icon i { color: var(--primary); font-size:16px; }
-    .logo-text {
-      font-family: var(--mono);
-      font-size: 1.25rem;
-      font-weight: 700;
-      color:#fff;
-      letter-spacing: 0.08em;
-    }
-    .logo-sub {
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      margin-top: 1px;
-    }
+    .logo-text { font-family: var(--mono); font-size: 1.25rem; font-weight: 700; color:#fff; letter-spacing: 0.08em; }
+    .logo-sub { font-size: 0.68rem; color: var(--muted); letter-spacing: 0.14em; text-transform: uppercase; margin-top: 1px; }
 
-    .topbar-right {
-      display:flex; align-items:center; gap:14px;
-    }
+    .topbar-right { display:flex; align-items:center; gap:14px; }
     .status-pill {
       display:flex; align-items:center; gap:7px;
       padding: 6px 14px;
       background: rgba(0,255,178,0.07);
       border: 1px solid rgba(0,255,178,0.2);
       border-radius: 30px;
-      font-size: 0.75rem;
-      font-family: var(--mono);
-      color: var(--green);
+      font-size: 0.75rem; font-family: var(--mono); color: var(--green);
     }
     .pulse {
       width:7px; height:7px; border-radius:50%;
-      background: var(--green);
-      box-shadow: 0 0 8px var(--green);
+      background: var(--green); box-shadow: 0 0 8px var(--green);
       animation: pulse 2s ease-in-out infinite;
     }
     @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+    .timestamp { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); }
 
-    .timestamp {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-    }
-
-    /* ══════════════════════════════
-       KPI STRIP
-    ══════════════════════════════ */
+    /* ── KPI STRIP ── */
     .kpi-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 16px;
       margin-bottom: 28px;
     }
-
     .kpi {
       background: var(--surface);
       border: 1px solid var(--border2);
@@ -150,42 +116,20 @@
     }
     .kpi:hover { border-color: var(--border); transform: translateY(-2px); }
     .kpi::after {
-      content:'';
-      position:absolute; top:0; left:0; right:0; height:2px;
-      border-radius:14px 14px 0 0;
+      content:''; position:absolute; top:0; left:0; right:0; height:2px; border-radius:14px 14px 0 0;
     }
     .kpi-1::after { background: linear-gradient(90deg, var(--primary), transparent); }
     .kpi-2::after { background: linear-gradient(90deg, var(--gold),    transparent); }
     .kpi-3::after { background: linear-gradient(90deg, var(--rose),    transparent); }
     .kpi-4::after { background: linear-gradient(90deg, var(--violet),  transparent); }
 
-    .kpi-label {
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.14em;
-      color: var(--muted);
-      margin-bottom: 10px;
-      font-family: var(--mono);
-    }
-    .kpi-value {
-      font-family: var(--mono);
-      font-size: 1.9rem;
-      font-weight: 700;
-      color: #fff;
-      line-height: 1;
-      margin-bottom: 6px;
-    }
-    .kpi-delta {
-      font-size: 0.75rem;
-      font-family: var(--mono);
-      display:flex; align-items:center; gap:5px;
-    }
+    .kpi-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-bottom: 10px; font-family: var(--mono); }
+    .kpi-value { font-family: var(--mono); font-size: 1.9rem; font-weight: 700; color: #fff; line-height: 1; margin-bottom: 6px; }
+    .kpi-delta { font-size: 0.75rem; font-family: var(--mono); display:flex; align-items:center; gap:5px; }
     .delta-up   { color: var(--green); }
     .delta-down { color: var(--rose);  }
 
-    /* ══════════════════════════════
-       MAIN GRID
-    ══════════════════════════════ */
+    /* ── MAIN GRID ── */
     .grid-main {
       display: grid;
       grid-template-columns: 1fr 340px;
@@ -198,13 +142,8 @@
       gap: 20px;
     }
 
-    /* ── Card ── */
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border2);
-      border-radius: 16px;
-      overflow: hidden;
-    }
+    /* ── CARD ── */
+    .card { background: var(--surface); border: 1px solid var(--border2); border-radius: 16px; overflow: hidden; }
     .card-header {
       display:flex; align-items:center; justify-content:space-between;
       padding: 16px 20px;
@@ -212,12 +151,8 @@
     }
     .card-title {
       display:flex; align-items:center; gap:9px;
-      font-family: var(--mono);
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: #fff;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
+      font-family: var(--mono); font-size: 0.82rem; font-weight: 700; color: #fff;
+      letter-spacing: 0.06em; text-transform: uppercase;
     }
     .card-title i { font-size: 13px; }
     .ct-cyan   { color: var(--primary); }
@@ -227,104 +162,72 @@
     .ct-green  { color: var(--green);   }
 
     .card-tag {
-      font-family: var(--mono);
-      font-size: 0.62rem;
-      padding: 3px 9px;
-      border-radius: 20px;
-      background: rgba(0,212,255,0.08);
-      border: 1px solid rgba(0,212,255,0.2);
-      color: var(--primary);
-      letter-spacing: 0.08em;
+      font-family: var(--mono); font-size: 0.62rem; padding: 3px 9px; border-radius: 20px;
+      background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+      color: var(--primary); letter-spacing: 0.08em;
     }
-
     .card-body { padding: 20px; }
 
-    /* ── Chart containers ── */
     .chart-wrap { position:relative; }
     .chart-wrap-lg  { height: 320px; }
     .chart-wrap-md  { height: 240px; }
-    .chart-wrap-sm  { height: 200px; }
 
-    /* ══════════════════════════════
-       PROTOCOL TABLE (right col)
-    ══════════════════════════════ */
+    /* ── PROTOCOL LIST ── */
     .proto-list { display:flex; flex-direction:column; gap:10px; padding: 16px 20px; }
-    .proto-row {
-      display:flex; align-items:center; gap:12px;
-    }
-    .proto-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-    .proto-name {
-      font-family: var(--mono);
-      font-size: 0.75rem;
-      color: var(--text);
-      width:52px; flex-shrink:0;
-    }
-    .proto-bar-bg {
-      flex:1;
-      background: rgba(255,255,255,0.05);
-      border-radius:4px; height:6px; overflow:hidden;
-    }
-    .proto-bar {
-      height:100%; border-radius:4px;
-      transition: width .8s cubic-bezier(.4,0,.2,1);
-    }
-    .proto-pct {
-      font-family: var(--mono);
-      font-size: 0.72rem;
-      color: var(--muted);
-      width:34px; text-align:right; flex-shrink:0;
-    }
+    .proto-row  { display:flex; align-items:center; gap:12px; }
+    .proto-dot  { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
+    .proto-name { font-family: var(--mono); font-size: 0.75rem; color: var(--text); width:52px; flex-shrink:0; }
+    .proto-bar-bg { flex:1; background: rgba(255,255,255,0.05); border-radius:4px; height:6px; overflow:hidden; }
+    .proto-bar  { height:100%; border-radius:4px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+    .proto-pct  { font-family: var(--mono); font-size: 0.72rem; color: var(--muted); width:34px; text-align:right; flex-shrink:0; }
 
-    /* ══════════════════════════════
-       ALERT FEED
-    ══════════════════════════════ */
-    .alert-feed { display:flex; flex-direction:column; gap:8px; padding:16px 20px; }
+    /* ── ALERT FEED ── */
+    .alert-feed { display:flex; flex-direction:column; gap:8px; padding:16px 20px; max-height: 320px; overflow-y: auto; }
+    .alert-feed::-webkit-scrollbar { width: 4px; }
+    .alert-feed::-webkit-scrollbar-track { background: transparent; }
+    .alert-feed::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
     .alert-item {
       display:flex; align-items:flex-start; gap:12px;
-      padding: 10px 14px;
-      border-radius: 10px;
-      border: 1px solid transparent;
-      font-size: 0.78rem;
-      transition: background .2s;
+      padding: 10px 14px; border-radius: 10px; border: 1px solid transparent;
+      font-size: 0.78rem; transition: background .2s;
+      animation: slideIn .3s ease;
     }
+    @keyframes slideIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
     .alert-item:hover { background: rgba(255,255,255,0.03); }
     .alert-high   { background: rgba(255,79,123,0.06);  border-color: rgba(255,79,123,0.2);  }
     .alert-med    { background: rgba(245,200,66,0.06);  border-color: rgba(245,200,66,0.2);  }
     .alert-low    { background: rgba(0,212,255,0.05);   border-color: rgba(0,212,255,0.15);  }
     .alert-dot    { width:7px; height:7px; border-radius:50%; margin-top:3px; flex-shrink:0; }
-    .dot-high  { background:var(--rose); box-shadow:0 0 6px var(--rose); }
-    .dot-med   { background:var(--gold); box-shadow:0 0 6px var(--gold); }
+    .dot-high  { background:var(--rose);    box-shadow:0 0 6px var(--rose); }
+    .dot-med   { background:var(--gold);    box-shadow:0 0 6px var(--gold); }
     .dot-low   { background:var(--primary); box-shadow:0 0 6px var(--primary); }
-    .alert-msg { color: var(--text); line-height:1.4; }
+    .alert-msg  { color: var(--text); line-height:1.4; }
     .alert-time { font-family:var(--mono); font-size:0.65rem; color:var(--muted); margin-top:2px; }
 
-    /* ══════════════════════════════
-       FOOTER
-    ══════════════════════════════ */
+    /* ── ANOMALY TAG in header ── */
+    .tag-rose { background:rgba(255,79,123,0.1); border-color:rgba(255,79,123,0.3); color:var(--rose); }
+
+    /* ── PREDICTION BADGE ── */
+    .pred-badge {
+      font-family: var(--mono); font-size: 0.72rem;
+      padding: 4px 12px; border-radius: 20px;
+      transition: all .3s;
+    }
+    .pred-benign  { background:rgba(0,255,178,0.1); border:1px solid rgba(0,255,178,0.3); color:var(--green); }
+    .pred-attack  { background:rgba(255,79,123,0.1); border:1px solid rgba(255,79,123,0.3); color:var(--rose); animation: blink .8s ease infinite; }
+    .pred-default { background:rgba(0,212,255,0.08); border:1px solid rgba(0,212,255,0.2); color:var(--primary); }
+    @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:.5;} }
+
     footer {
       text-align:center; margin-top:50px;
-      font-family: var(--mono);
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.1em;
+      font-family: var(--mono); font-size: 0.68rem; color: var(--muted); letter-spacing: 0.1em;
     }
     footer span { color: var(--primary); }
 
-    /* ══════════════════════════════
-       RESPONSIVE
-    ══════════════════════════════ */
-    @media(max-width:1100px) {
-      .grid-main    { grid-template-columns: 1fr; }
-    }
-    @media(max-width:820px) {
-      .kpi-strip    { grid-template-columns: 1fr 1fr; }
-      .grid-bottom  { grid-template-columns: 1fr; }
-      .wrap         { padding: 16px 16px 50px; }
-    }
-    @media(max-width:480px) {
-      .kpi-strip    { grid-template-columns: 1fr; }
-      .logo-text    { font-size:1rem; }
-    }
+    @media(max-width:1100px) { .grid-main { grid-template-columns: 1fr; } }
+    @media(max-width:820px)  { .kpi-strip { grid-template-columns: 1fr 1fr; } .grid-bottom { grid-template-columns: 1fr; } .wrap { padding: 16px 16px 50px; } }
+    @media(max-width:480px)  { .kpi-strip { grid-template-columns: 1fr; } .logo-text { font-size:1rem; } }
   </style>
 </head>
 <body>
@@ -335,7 +238,7 @@
 
 <div class="wrap">
 
-  <!-- ── TOPBAR ── -->
+  <!-- TOPBAR -->
   <nav class="topbar">
     <div class="logo">
       <div class="logo-icon"><i class="fas fa-shield-halved"></i></div>
@@ -345,39 +248,37 @@
       </div>
     </div>
     <div class="topbar-right">
-      <div class="status-pill">
-        <span class="pulse"></span>
-        LIVE MONITORING
-      </div>
+      <span class="pred-badge pred-default" id="predBadge">Detecting...</span>
+      <div class="status-pill"><span class="pulse"></span>LIVE MONITORING</div>
       <div class="timestamp" id="clock">—</div>
     </div>
   </nav>
 
-  <!-- ── KPI STRIP ── -->
+  <!-- KPI STRIP -->
   <div class="kpi-strip">
     <div class="kpi kpi-1">
       <div class="kpi-label">Total Packets</div>
-      <div class="kpi-value" id="kpi-packets">2.84M</div>
-      <div class="kpi-delta delta-up"><i class="fas fa-arrow-up" style="font-size:9px"></i> +4.2% vs last hr</div>
+      <div class="kpi-value" id="kpi-packets">—</div>
+      <div class="kpi-delta delta-up" id="kpi-packets-delta"><i class="fas fa-circle" style="font-size:7px"></i> Waiting...</div>
     </div>
     <div class="kpi kpi-2">
-      <div class="kpi-label">Throughput</div>
-      <div class="kpi-value" id="kpi-throughput">1.7<span style="font-size:1rem;color:var(--muted)">Gbps</span></div>
-      <div class="kpi-delta delta-up"><i class="fas fa-arrow-up" style="font-size:9px"></i> +1.8%</div>
+      <div class="kpi-label">TCP Packets</div>
+      <div class="kpi-value" id="kpi-tcp">—</div>
+      <div class="kpi-delta delta-up" id="kpi-tcp-delta"><i class="fas fa-circle" style="font-size:7px"></i> Waiting...</div>
     </div>
     <div class="kpi kpi-3">
-      <div class="kpi-label">Anomalies</div>
-      <div class="kpi-value" id="kpi-anomaly">14</div>
-      <div class="kpi-delta delta-down"><i class="fas fa-arrow-up" style="font-size:9px"></i> +3 new alerts</div>
+      <div class="kpi-label">UDP Packets</div>
+      <div class="kpi-value" id="kpi-udp">—</div>
+      <div class="kpi-delta delta-down" id="kpi-udp-delta"><i class="fas fa-circle" style="font-size:7px"></i> Waiting...</div>
     </div>
     <div class="kpi kpi-4">
-      <div class="kpi-label">Avg Latency</div>
-      <div class="kpi-value" id="kpi-latency">38<span style="font-size:1rem;color:var(--muted)">ms</span></div>
-      <div class="kpi-delta delta-up"><i class="fas fa-arrow-down" style="font-size:9px"></i> -12% improved</div>
+      <div class="kpi-label">Packet Size</div>
+      <div class="kpi-value" id="kpi-size">—<span style="font-size:1rem;color:var(--muted)" id="kpi-size-unit">B</span></div>
+      <div class="kpi-delta" id="kpi-trend"><i class="fas fa-circle" style="font-size:7px"></i> Waiting...</div>
     </div>
   </div>
 
-  <!-- ── MAIN GRID: Traffic chart + Protocol breakdown ── -->
+  <!-- MAIN GRID -->
   <div class="grid-main">
 
     <!-- Traffic Over Time -->
@@ -397,7 +298,7 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title ct-gold"><i class="fas fa-layer-group"></i> Protocol Mix</div>
-        <span class="card-tag">IPv4 / IPv6</span>
+        <span class="card-tag" id="ipv-tag">IPv4</span>
       </div>
       <div class="card-body" style="padding:16px 20px 4px">
         <div class="chart-wrap" style="height:180px">
@@ -409,10 +310,10 @@
 
   </div>
 
-  <!-- ── BOTTOM GRID: EMA+Bollinger + Alert Feed ── -->
+  <!-- BOTTOM GRID -->
   <div class="grid-bottom">
 
-    <!-- EMA + Bollinger Bands -->
+    <!-- EMA + Bollinger -->
     <div class="card">
       <div class="card-header">
         <div class="card-title ct-gold"><i class="fas fa-wave-square"></i> EMA + Bollinger Bands</div>
@@ -429,49 +330,14 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title ct-rose"><i class="fas fa-triangle-exclamation"></i> Anomaly Feed</div>
-        <span class="card-tag" style="background:rgba(255,79,123,0.1);border-color:rgba(255,79,123,0.3);color:var(--rose)">14 ACTIVE</span>
+        <span class="card-tag tag-rose" id="alertCountTag">0 ACTIVE</span>
       </div>
-      <div class="alert-feed">
-        <div class="alert-item alert-high">
-          <span class="alert-dot dot-high"></span>
-          <div>
-            <div class="alert-msg">Port scan detected — 192.168.1.42 → 10.0.0.0/24 (TCP SYN flood)</div>
-            <div class="alert-time">14:32:07 · HIGH SEVERITY</div>
-          </div>
-        </div>
-        <div class="alert-item alert-high">
-          <span class="alert-dot dot-high"></span>
-          <div>
-            <div class="alert-msg">DDoS pattern — spike 3.2× above upper Bollinger Band</div>
-            <div class="alert-time">14:29:51 · HIGH SEVERITY</div>
-          </div>
-        </div>
-        <div class="alert-item alert-med">
-          <span class="alert-dot dot-med"></span>
-          <div>
-            <div class="alert-msg">Unusual DNS query volume from subnet 172.16.2.0/24</div>
-            <div class="alert-time">14:25:14 · MEDIUM</div>
-          </div>
-        </div>
-        <div class="alert-item alert-med">
-          <span class="alert-dot dot-med"></span>
-          <div>
-            <div class="alert-msg">TLS 1.0 negotiation attempt — legacy client 10.0.1.88</div>
-            <div class="alert-time">14:18:40 · MEDIUM</div>
-          </div>
-        </div>
+      <div class="alert-feed" id="alertFeed">
         <div class="alert-item alert-low">
           <span class="alert-dot dot-low"></span>
           <div>
-            <div class="alert-msg">ICMP burst — 1,240 pkt/s from 10.0.3.7 (monitoring probe?)</div>
-            <div class="alert-time">14:10:03 · LOW</div>
-          </div>
-        </div>
-        <div class="alert-item alert-low">
-          <span class="alert-dot dot-low"></span>
-          <div>
-            <div class="alert-msg">ARP table instability on VLAN 40 — possible spoofing attempt</div>
-            <div class="alert-time">14:05:29 · LOW</div>
+            <div class="alert-msg">Waiting for live packets...</div>
+            <div class="alert-time">— · SYSTEM</div>
           </div>
         </div>
       </div>
@@ -479,11 +345,9 @@
 
   </div>
 
-</div><!-- /wrap -->
+</div>
 
-<footer>
-  &copy; 2026 <span>QNTA</span> · Quantitative Network Traffic Analysis System · Built for secure networks
-</footer>
+<footer>&copy; 2026 <span>QNTA</span> · Quantitative Network Traffic Analysis System · Built for secure networks</footer>
 
 <script>
 /* ── Clock ── */
@@ -495,190 +359,188 @@ function tick() {
 }
 tick(); setInterval(tick, 1000);
 
-/* ── Shared chart defaults ── */
+/* ── Chart defaults ── */
 Chart.defaults.font.family = "'Space Mono', monospace";
 Chart.defaults.color = '#4e6178';
-
 const gridColor  = 'rgba(255,255,255,0.05)';
 const tickColor  = '#4e6178';
 const tooltipCfg = {
-  backgroundColor: '#0d1117',
-  titleColor: '#00d4ff',
-  bodyColor: '#c9d5e8',
-  borderColor: 'rgba(0,212,255,0.25)',
-  borderWidth: 1,
-  padding: 10,
-  cornerRadius: 8,
+  backgroundColor:'#0d1117', titleColor:'#00d4ff', bodyColor:'#c9d5e8',
+  borderColor:'rgba(0,212,255,0.25)', borderWidth:1, padding:10, cornerRadius:8,
 };
 
-/* ── Helpers ── */
-function rnd(lo, hi) { return Math.random() * (hi - lo) + lo; }
-function genSeries(n, base, noise) {
-  const out = [];
-  let v = base;
-  for (let i = 0; i < n; i++) {
-    v += rnd(-noise, noise);
-    v = Math.max(base * 0.4, v);
-    out.push(parseFloat(v.toFixed(2)));
-  }
+function rnd(lo,hi) { return Math.random()*(hi-lo)+lo; }
+function genSeries(n,base,noise) {
+  const out=[]; let v=base;
+  for(let i=0;i<n;i++) { v+=rnd(-noise,noise); v=Math.max(base*0.4,v); out.push(parseFloat(v.toFixed(2))); }
   return out;
 }
 function makeLabels(n) {
-  return Array.from({length:n}, (_,i) => {
-    const t = new Date(Date.now() - (n - i - 1) * 5000);
+  return Array.from({length:n},(_,i)=>{
+    const t=new Date(Date.now()-(n-i-1)*5000);
     return t.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
   });
 }
 
 /* ══════════════════════════════
-   1. TRAFFIC OVER TIME
+   1. TRAFFIC CHART
 ══════════════════════════════ */
 const N = 40;
 let trafficLabels = makeLabels(N);
-let inboundData   = genSeries(N, 850, 120);
-let outboundData  = genSeries(N, 480, 80);
+let inboundData   = genSeries(N, 400, 80);
+let outboundData  = genSeries(N, 200, 50);
 let totalData     = inboundData.map((v,i)=>parseFloat((v+outboundData[i]).toFixed(2)));
 
 const trafficCtx = document.getElementById('trafficChart').getContext('2d');
 const trafficChart = new Chart(trafficCtx, {
-  type: 'line',
-  data: {
+  type:'line',
+  data:{
     labels: trafficLabels,
-    datasets: [
+    datasets:[
       {
-        label: 'Inbound',
+        label:'Inbound',
         data: inboundData,
-        borderColor: '#00d4ff',
+        borderColor:'#00d4ff',
         backgroundColor: ctx => {
-          const g = ctx.chart.ctx.createLinearGradient(0,0,0,280);
-          g.addColorStop(0,'rgba(0,212,255,0.22)');
-          g.addColorStop(1,'rgba(0,212,255,0)');
-          return g;
+          const g=ctx.chart.ctx.createLinearGradient(0,0,0,280);
+          g.addColorStop(0,'rgba(0,212,255,0.22)'); g.addColorStop(1,'rgba(0,212,255,0)'); return g;
         },
-        fill: true, borderWidth: 2, tension: 0.4, pointRadius: 0,
+        fill:true, borderWidth:2, tension:0.4, pointRadius:0,
       },
       {
-        label: 'Outbound',
+        label:'Outbound',
         data: outboundData,
-        borderColor: '#f5c842',
+        borderColor:'#f5c842',
         backgroundColor: ctx => {
-          const g = ctx.chart.ctx.createLinearGradient(0,0,0,280);
-          g.addColorStop(0,'rgba(245,200,66,0.15)');
-          g.addColorStop(1,'rgba(245,200,66,0)');
-          return g;
+          const g=ctx.chart.ctx.createLinearGradient(0,0,0,280);
+          g.addColorStop(0,'rgba(245,200,66,0.15)'); g.addColorStop(1,'rgba(245,200,66,0)'); return g;
         },
-        fill: true, borderWidth: 2, tension: 0.4, pointRadius: 0,
+        fill:true, borderWidth:2, tension:0.4, pointRadius:0,
       },
       {
-        label: 'Total',
+        label:'Total',
         data: totalData,
-        borderColor: '#8b5cf6',
-        backgroundColor: 'transparent',
-        borderWidth: 1.5,
-        borderDash: [5,4],
-        tension: 0.4, pointRadius: 0,
+        borderColor:'#8b5cf6', backgroundColor:'transparent',
+        borderWidth:1.5, borderDash:[5,4], tension:0.4, pointRadius:0,
       },
     ]
   },
-  options: {
-    responsive: true, maintainAspectRatio: false,
-    interaction: { mode:'index', intersect:false },
-    plugins: {
-      legend: { labels: { color:'#c9d5e8', usePointStyle:true, pointStyleWidth:14, padding:18, font:{size:11} }},
+  options:{
+    responsive:true, maintainAspectRatio:false,
+    interaction:{ mode:'index', intersect:false },
+    plugins:{
+      legend:{ labels:{ color:'#c9d5e8', usePointStyle:true, pointStyleWidth:14, padding:18, font:{size:11} }},
       tooltip: tooltipCfg,
     },
-    scales: {
-      x: { ticks:{ color:tickColor, maxTicksLimit:8, font:{size:10} }, grid:{ color:gridColor } },
-      y: {
-        ticks:{ color:tickColor, callback: v => v+'M', font:{size:10} },
+    scales:{
+      x:{ ticks:{ color:tickColor, maxTicksLimit:8, font:{size:10} }, grid:{ color:gridColor } },
+      y:{
+        ticks:{ color:tickColor, callback:v=>v+'B', font:{size:10} },
         grid:{ color:gridColor },
-        title:{ display:true, text:'Mbps', color:tickColor, font:{size:10} },
+        title:{ display:true, text:'Bytes', color:tickColor, font:{size:10} }
       }
     },
     animation:{ duration:300 }
   }
 });
 
-/* live updates */
-
-
 /* ══════════════════════════════
    2. PROTOCOL DOUGHNUT
 ══════════════════════════════ */
+// Counts tracked from socket
+let protoCounters = { TCP:0, UDP:0, ICMP:0, Other:0 };
+
 const protocols = [
-  { name:'TCP',   pct:42, color:'#00d4ff' },
-  { name:'UDP',   pct:28, color:'#f5c842' },
-  { name:'ICMP',  pct:12, color:'#8b5cf6' },
-  { name:'HTTP',  pct:10, color:'#00ffb2' },
-  { name:'HTTPS', pct:5,  color:'#ff4f7b' },
-  { name:'Other', pct:3,  color:'#4e6178' },
+  { name:'TCP',   color:'#00d4ff' },
+  { name:'UDP',   color:'#f5c842' },
+  { name:'ICMP',  color:'#8b5cf6' },
+  { name:'Other', color:'#4e6178' },
 ];
 
 const dCtx = document.getElementById('doughnutChart').getContext('2d');
-new Chart(dCtx, {
-  type: 'doughnut',
-  data: {
+const doughnutChart = new Chart(dCtx, {
+  type:'doughnut',
+  data:{
     labels: protocols.map(p=>p.name),
     datasets:[{
-      data: protocols.map(p=>p.pct),
+      data: [1,1,1,1],
       backgroundColor: protocols.map(p=>p.color+'33'),
-      borderColor: protocols.map(p=>p.color),
-      borderWidth: 2,
+      borderColor:     protocols.map(p=>p.color),
+      borderWidth:2,
       hoverBackgroundColor: protocols.map(p=>p.color+'66'),
     }]
   },
-  options: {
+  options:{
     responsive:true, maintainAspectRatio:false,
     cutout:'72%',
     plugins:{
       legend:{ display:false },
-      tooltip:{ ...tooltipCfg, callbacks:{ label: c => ` ${c.label}: ${c.parsed}%` } }
+      tooltip:{ ...tooltipCfg, callbacks:{ label:c=>` ${c.label}: ${c.parsed}%` } }
     }
   }
 });
 
-/* protocol bars */
+/* Build protocol bar rows */
 const protoList = document.getElementById('protoList');
 protocols.forEach(p => {
   const row = document.createElement('div');
   row.className = 'proto-row';
+  row.id = `proto-row-${p.name}`;
   row.innerHTML = `
     <span class="proto-dot" style="background:${p.color};box-shadow:0 0 6px ${p.color}44"></span>
     <span class="proto-name">${p.name}</span>
-    <div class="proto-bar-bg"><div class="proto-bar" style="width:${p.pct}%;background:${p.color}"></div></div>
-    <span class="proto-pct">${p.pct}%</span>
+    <div class="proto-bar-bg"><div class="proto-bar" id="bar-${p.name}" style="width:25%;background:${p.color}"></div></div>
+    <span class="proto-pct" id="pct-${p.name}">—</span>
   `;
   protoList.appendChild(row);
 });
 
+function updateProtocolUI() {
+  const total = Object.values(protoCounters).reduce((a,b)=>a+b,0);
+  if (total === 0) return;
+  const pcts = {};
+  protocols.forEach(p => { pcts[p.name] = Math.round((protoCounters[p.name]/total)*100); });
+
+  // update doughnut
+  doughnutChart.data.datasets[0].data = protocols.map(p=>pcts[p.name]||0);
+  doughnutChart.update('none');
+
+  // update bars
+  protocols.forEach(p => {
+    const pct = pcts[p.name] || 0;
+    const bar = document.getElementById(`bar-${p.name}`);
+    const label = document.getElementById(`pct-${p.name}`);
+    if (bar)   bar.style.width = pct + '%';
+    if (label) label.textContent = pct + '%';
+  });
+}
+
 /* ══════════════════════════════
-   3. EMA + BOLLINGER BANDS
+   3. EMA + BOLLINGER
 ══════════════════════════════ */
 const M = 50;
-const rawData = genSeries(M, 700, 140);
+const rawInit = genSeries(M, 700, 140);
 
 function computeEMA(data, alpha=0.15) {
-  const ema = [data[0]];
-  for (let i=1; i<data.length; i++)
-    ema.push(alpha*data[i] + (1-alpha)*ema[i-1]);
+  const ema=[data[0]];
+  for(let i=1;i<data.length;i++) ema.push(alpha*data[i]+(1-alpha)*ema[i-1]);
   return ema;
 }
 function computeBollinger(ema, raw, k=1.8) {
-  const upper=[],lower=[];
-  const win=10;
-  for (let i=0; i<ema.length; i++) {
-    const slice = raw.slice(Math.max(0,i-win+1),i+1);
-    const mean = slice.reduce((a,b)=>a+b,0)/slice.length;
-    const std  = Math.sqrt(slice.reduce((a,b)=>a+(b-mean)**2,0)/slice.length);
+  const upper=[],lower=[],win=10;
+  for(let i=0;i<ema.length;i++){
+    const slice=raw.slice(Math.max(0,i-win+1),i+1);
+    const mean=slice.reduce((a,b)=>a+b,0)/slice.length;
+    const std=Math.sqrt(slice.reduce((a,b)=>a+(b-mean)**2,0)/slice.length);
     upper.push(parseFloat((ema[i]+k*std).toFixed(2)));
     lower.push(parseFloat((ema[i]-k*std).toFixed(2)));
   }
   return {upper,lower};
 }
 
-const emaVals = computeEMA(rawData);
-const {upper, lower} = computeBollinger(emaVals, rawData);
-const emaLabels = rawData.map((_,i) => `T${String(i+1).padStart(2,'0')}`);
+const emaInit = computeEMA(rawInit);
+const {upper:upperInit, lower:lowerInit} = computeBollinger(emaInit, rawInit);
+const emaLabels = rawInit.map((_,i)=>`T${String(i+1).padStart(2,'0')}`);
 
 const emaCtx = document.getElementById('emaChart').getContext('2d');
 const emaChart = new Chart(emaCtx, {
@@ -688,30 +550,26 @@ const emaChart = new Chart(emaCtx, {
     datasets:[
       {
         label:'Raw Traffic',
-        data: rawData,
-        borderColor:'rgba(0,212,255,0.5)',
-        backgroundColor:'rgba(0,212,255,0.04)',
+        data: rawInit,
+        borderColor:'rgba(0,212,255,0.5)', backgroundColor:'rgba(0,212,255,0.04)',
         fill:true, borderWidth:1.5, tension:0.35, pointRadius:0
       },
       {
         label:'EMA',
-        data: emaVals,
-        borderColor:'#f5c842',
-        backgroundColor:'transparent',
+        data: emaInit,
+        borderColor:'#f5c842', backgroundColor:'transparent',
         borderWidth:2.5, tension:0.4, pointRadius:0
       },
       {
         label:'Upper Band',
-        data: upper,
-        borderColor:'rgba(255,79,123,0.7)',
-        backgroundColor:'rgba(255,79,123,0.05)',
+        data: upperInit,
+        borderColor:'rgba(255,79,123,0.7)', backgroundColor:'rgba(255,79,123,0.05)',
         fill:'+1', borderDash:[5,4], borderWidth:1.5, tension:0.3, pointRadius:0
       },
       {
         label:'Lower Band',
-        data: lower,
-        borderColor:'rgba(139,92,246,0.7)',
-        backgroundColor:'transparent',
+        data: lowerInit,
+        borderColor:'rgba(139,92,246,0.7)', backgroundColor:'transparent',
         borderDash:[5,4], borderWidth:1.5, tension:0.3, pointRadius:0
       },
     ]
@@ -731,7 +589,6 @@ const emaChart = new Chart(emaCtx, {
   }
 });
 
-/* expose update fn */
 window.updateEMAChart = function(result) {
   if (!result.ema_history) return;
   const h = result.ema_history;
@@ -742,44 +599,202 @@ window.updateEMAChart = function(result) {
   emaChart.data.datasets[3].data = [...h.lower];
   emaChart.update('none');
 };
-    const socket = io();
-    socket.on('connect',() => {
-        console.log("Connected to backend");
-    });
-    socket.on('packet_update', (result) => {
 
-  if (!result || result.timestamp === "Start") return;
+/* ══════════════════════════════
+   ALERT FEED
+══════════════════════════════ */
+let alertCount = 0;
+let lastPrediction = null;
+
+// Map ML prediction labels → severity + display
+function classifyPrediction(pred) {
+  const p = (pred||'').toUpperCase();
+  if (p === 'BENIGN' || p === 'NORMAL') return null; // no alert for benign
+  if (['DDOS','DOS','DOSGOLDENEYE','DOSHULK','DOSSLOWHTTP','DOSSLOWLORIS'].some(x=>p.includes(x)))
+    return { sev:'HIGH', msg: `DDoS/DoS attack detected — type: ${pred}` };
+  if (['PORTSCAN','SCAN','PROBE'].some(x=>p.includes(x)))
+    return { sev:'HIGH', msg: `Port scan / probe detected — type: ${pred}` };
+  if (['BOT','BOTNET'].some(x=>p.includes(x)))
+    return { sev:'HIGH', msg: `Bot/Botnet traffic detected — type: ${pred}` };
+  if (['BRUTE','FORCE','FTP','SSH','PATATOR'].some(x=>p.includes(x)))
+    return { sev:'MEDIUM', msg: `Brute-force attempt detected — type: ${pred}` };
+  if (['INFILTRATION','HEARTBLEED','WEB'].some(x=>p.includes(x)))
+    return { sev:'MEDIUM', msg: `Intrusion attempt detected — type: ${pred}` };
+  // Unknown non-benign
+  return { sev:'LOW', msg: `Anomalous traffic detected — class: ${pred}` };
+}
+
+function pushAlert(sev, msg, time) {
+  const feed = document.getElementById('alertFeed');
+
+  // Remove "waiting" placeholder if present
+  const placeholder = feed.querySelector('.alert-item:only-child');
+  if (placeholder && placeholder.querySelector('.alert-msg').textContent.includes('Waiting'))
+    placeholder.remove();
+
+  const sevClass = { HIGH:'alert-high', MEDIUM:'alert-med', LOW:'alert-low' };
+  const dotClass = { HIGH:'dot-high',   MEDIUM:'dot-med',   LOW:'dot-low'   };
+
+  const item = document.createElement('div');
+  item.className = `alert-item ${sevClass[sev]||'alert-low'}`;
+  item.innerHTML = `
+    <span class="alert-dot ${dotClass[sev]||'dot-low'}"></span>
+    <div>
+      <div class="alert-msg">${msg}</div>
+      <div class="alert-time">${time} · ${sev}</div>
+    </div>`;
+  feed.prepend(item);
+  while (feed.children.length > 12) feed.lastChild.remove();
+
+  alertCount++;
+  document.getElementById('alertCountTag').textContent = alertCount + ' ACTIVE';
+}
+
+/* ══════════════════════════════
+   KPI HELPERS
+══════════════════════════════ */
+let prevPackets = 0;
+let prevTcp = 0;
+let prevUdp = 0;
+
+function formatCount(n) {
+  if (n >= 1e6) return (n/1e6).toFixed(2)+'M';
+  if (n >= 1e3) return (n/1e3).toFixed(1)+'K';
+  return String(n);
+}
+
+function updateKPIs(result) {
+  const total = result.total_packets || 0;
+  const tcp   = result.tcp_count     || 0;
+  const udp   = result.udp_count     || 0;
+  const size  = result.packet_size   || 0;
+
+  // Total packets
+  document.getElementById('kpi-packets').textContent = formatCount(total);
+  const pktDiff = total - prevPackets;
+  const pktEl = document.getElementById('kpi-packets-delta');
+  pktEl.className = 'kpi-delta ' + (pktDiff >= 0 ? 'delta-up':'delta-down');
+  pktEl.innerHTML = `<i class="fas fa-arrow-${pktDiff>=0?'up':'down'}" style="font-size:9px"></i> ${pktDiff>=0?'+':''}${pktDiff} since last`;
+
+  // TCP
+  document.getElementById('kpi-tcp').textContent = formatCount(tcp);
+  const tcpDiff = tcp - prevTcp;
+  const tcpEl = document.getElementById('kpi-tcp-delta');
+  tcpEl.className = 'kpi-delta delta-up';
+  tcpEl.innerHTML = `<i class="fas fa-arrow-up" style="font-size:9px"></i> +${tcpDiff} packets`;
+
+  // UDP
+  document.getElementById('kpi-udp').textContent = formatCount(udp);
+  const udpDiff = udp - prevUdp;
+  const udpEl = document.getElementById('kpi-udp-delta');
+  udpEl.className = 'kpi-delta delta-up';
+  udpEl.innerHTML = `<i class="fas fa-arrow-up" style="font-size:9px"></i> +${udpDiff} packets`;
+
+  // Packet size + EMA trend
+  document.getElementById('kpi-size').childNodes[0].textContent = size;
+  const trendEl = document.getElementById('kpi-trend');
+  const trend = (result.trend||'').toLowerCase();
+  if (trend === 'up') {
+    trendEl.className = 'kpi-delta delta-down';
+    trendEl.innerHTML = '<i class="fas fa-arrow-up" style="font-size:9px"></i> EMA rising';
+  } else if (trend === 'down') {
+    trendEl.className = 'kpi-delta delta-up';
+    trendEl.innerHTML = '<i class="fas fa-arrow-down" style="font-size:9px"></i> EMA falling';
+  } else {
+    trendEl.className = 'kpi-delta';
+    trendEl.innerHTML = '<i class="fas fa-minus" style="font-size:9px"></i> EMA stable';
+  }
+
+  prevPackets = total;
+  prevTcp = tcp;
+  prevUdp = udp;
+}
+
+/* ══════════════════════════════
+   PROTOCOL COUNTER UPDATE
+══════════════════════════════ */
+function updateProtocolCounters(result) {
+  const proto = result.protocol;
+  if (proto === 6)       protoCounters.TCP++;
+  else if (proto === 17) protoCounters.UDP++;
+  else if (proto === 1)  protoCounters.ICMP++;
+  else                   protoCounters.Other++;
+
+  // Sync to exact backend counts if available
+  if (result.tcp_count !== undefined) protoCounters.TCP  = result.tcp_count;
+  if (result.udp_count !== undefined) protoCounters.UDP  = result.udp_count;
+
+  updateProtocolUI();
+}
+
+/* ══════════════════════════════
+   PREDICTION BADGE
+══════════════════════════════ */
+function updatePredBadge(pred) {
+  const badge = document.getElementById('predBadge');
+  const p = (pred||'').toUpperCase();
+  badge.textContent = pred || 'Detecting...';
+  badge.className = 'pred-badge';
+  if (!pred || pred === 'Detecting...') {
+    badge.classList.add('pred-default');
+  } else if (p === 'BENIGN' || p === 'NORMAL') {
+    badge.classList.add('pred-benign');
+  } else {
+    badge.classList.add('pred-attack');
+  }
+}
+
+/* ══════════════════════════════
+   SOCKET
+══════════════════════════════ */
+const socket = io();
+
+socket.on('connect', () => {
+  console.log('Connected to QNTA backend');
+});
+
+socket.on('packet_update', (result) => {
+  if (!result || result.timestamp === 'Start') return;
 
   const time = result.timestamp;
   const size = result.packet_size || 0;
 
-  // -------- TRAFFIC CHART UPDATE --------
-  trafficLabels.shift();
-  inboundData.shift();
-  outboundData.shift();
-  totalData.shift();
+  // 1. KPI cards
+  updateKPIs(result);
 
+  // 2. Protocol mix (doughnut + bars)
+  updateProtocolCounters(result);
+
+  // 3. Traffic chart
+  trafficLabels.shift(); inboundData.shift(); outboundData.shift(); totalData.shift();
   trafficLabels.push(time);
-
-  // Simple mapping (you can improve later)
-  const inbound = size;
-  const outbound = size * 0.6;
-  const total = inbound + outbound;
-
-  inboundData.push(inbound);
-  outboundData.push(outbound);
-  totalData.push(total);
-
-  trafficChart.data.labels = trafficLabels;
+  const inbound  = size;
+  const outbound = Math.round(size * 0.6);
+  const total    = inbound + outbound;
+  inboundData.push(inbound); outboundData.push(outbound); totalData.push(total);
+  trafficChart.data.labels          = trafficLabels;
   trafficChart.data.datasets[0].data = inboundData;
   trafficChart.data.datasets[1].data = outboundData;
   trafficChart.data.datasets[2].data = totalData;
-
   trafficChart.update('none');
 
-  // -------- EMA CHART --------
+  // 4. EMA chart
   window.updateEMAChart(result);
 
+  // 5. Prediction badge
+  const pred = result.prediction;
+  updatePredBadge(pred);
+
+  // 6. Alert feed — only push when prediction changes to a non-benign label
+  if (pred && pred !== lastPrediction && pred !== 'Detecting...') {
+    const alert = classifyPrediction(pred);
+    if (alert) pushAlert(alert.sev, alert.msg, time);
+    lastPrediction = pred;
+  }
+});
+
+socket.on('disconnect', () => {
+  console.log('Disconnected from backend');
 });
 </script>
 </body>
