@@ -1,5 +1,4 @@
 class EMAStorage:
-
     def __init__(self, max_len=20):
         self.max_len = max_len
         self.raw_values = []

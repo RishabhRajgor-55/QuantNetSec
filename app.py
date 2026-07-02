@@ -13,6 +13,7 @@ from scapy.all import sniff
 from scapy.layers.inet import TCP, IP, UDP
 
 from quant.ema.ema_api import update_ema
+from quant.volatility.volatility_api import update_volatility
 
 # ---------------- INIT ----------------
 app2 = Flask(__name__)
@@ -44,7 +45,20 @@ feature_names = joblib.load('features.pkl')
 
 last_emit_time = 0  # for throttling
 
+def compute_zscore(value, history):
+    try:
+        if len(history) < 5:
+            return 0
 
+        mean = np.mean(history)
+        std = np.std(history)
+
+        if std == 0:
+            return 0
+
+        return (value - mean) / std
+    except:
+        return 0
 # ---------------- PACKET SNIFFER ----------------
 def packet_sniffer():
 
@@ -111,10 +125,33 @@ def packet_sniffer():
                       duration = flow["last_time"] - flow["start_time"]
                       pps = len(flow["packets"]) / max(duration, 1)
 
+                      # ---------- COMBINED DECISION ----------
+                      z_score = latest_pkt.get("z_score", 0)
+                      vol = latest_pkt.get("volatility", 0)
+
+                      anomaly_score = 0
+
+                      # ML weight
                       if ml_label != "Benign":
-                          final_label = ml_label
-                      elif pps > 1000:
-                          final_label = "DDoS"
+                          anomaly_score += 2
+
+                      # Z-score weight
+                      if abs(z_score) > 2:
+                          anomaly_score += 1
+
+                      # Volatility weight
+                      if vol > 0.5:
+                          anomaly_score += 1
+
+                      # PPS heuristic
+                      if pps > 1000:
+                          anomaly_score += 1
+
+                      # Final label
+                      if anomaly_score >= 3:
+                          final_label = "Attack"
+                      elif anomaly_score == 2:
+                          final_label = "Suspicious"
                       else:
                           final_label = "Normal"
 
@@ -141,6 +178,17 @@ def packet_sniffer():
             latest_pkt["trend"] = ema_result["trend"]
             latest_pkt["ema_history"] = ema_result["history"]
 
+
+            # ---------- VOLATILITY ----------
+            vol_result = update_volatility(latest_pkt["packet_size"])
+            latest_pkt["volatility"] = vol_result["volatility"]
+            latest_pkt["vol_trend"] = vol_result["vol_trend"]
+            latest_pkt["vol_history"] = vol_result["vol_history"]
+
+            hist = ema_result["history"]["raw"]
+            z = compute_zscore(latest_pkt["packet_size"], hist)
+            latest_pkt["z_score"] = z
+            latest_pkt["z_history"] = hist[-50:]
             # ---------- WEBSOCKET EMIT (THROTTLED) ----------
             if time.time() - last_emit_time > 0.2:
                 socketio.emit('packet_update', dict(latest_pkt))  # send copy
@@ -245,10 +293,8 @@ def predict(features):
 @app2.route("/")
 def home():
     frontend_path = os.path.join(
-        os.path.dirname(__file__),  # backend/
-        "..",                       # go to QuantNetSec/
-        "frontend",                 # go to frontend/
-        "index.html"             # your file
+        os.path.dirname(__file__),  # backend/                      # go to QuantNetSec/                 # go to frontend/
+        "index_mod.html"             # your file
     )
     return send_file(frontend_path)
 

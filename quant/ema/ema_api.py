@@ -1,5 +1,6 @@
 import numpy as np
 
+# history buffers
 raw_values = []
 ema_values = []
 

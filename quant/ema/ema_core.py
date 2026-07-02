@@ -1,5 +1,4 @@
 class EMA:
-
     def __init__(self, alpha=0.3):
         self.alpha = alpha
         self.value = None

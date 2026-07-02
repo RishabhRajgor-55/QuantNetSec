@@ -1,5 +1,14 @@
-*.pkl
+# JetBrains/PyCharm IDE files
+.idea/
+
+# Python caching and compiled bytecode
 __pycache__/
 *.pyc
-.idea/
-.DS_Store
+*.pyo
+*.pyd
+
+# Node modules (for your frontend/backend if applicable)
+node_modules/
+
+# Local environment variables
+.env

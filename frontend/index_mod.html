@@ -193,6 +193,46 @@
       font-size: 0.78rem; transition: background .2s;
       animation: slideIn .3s ease;
     }
+    /* ── LOG TABLE ── */
+.log-table-wrap {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.log-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+}
+
+.log-table thead {
+  background: rgba(0,212,255,0.05);
+  position: sticky;
+  top: 0;
+}
+
+.log-table th {
+  text-align: left;
+  padding: 10px 14px;
+  color: var(--primary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border2);
+}
+
+.log-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border2);
+  color: var(--text);
+}
+
+    .log-table tr:hover {
+    background: rgba(255,255,255,0.03);
+    }
+
+/* prediction colors */
+    .log-benign  { color: var(--green); }
+    .log-attack  { color: var(--rose); }
     @keyframes slideIn { from { opacity:0; transform: translateY(-6px); } to { opacity:1; transform: translateY(0); } }
     .alert-item:hover { background: rgba(255,255,255,0.03); }
     .alert-high   { background: rgba(255,79,123,0.06);  border-color: rgba(255,79,123,0.2);  }
@@ -325,7 +365,33 @@
         </div>
       </div>
     </div>
-
+      <!-- VOLATILITY -->
+<div class="card">
+  <div class="card-header">
+    <div class="card-title ct-violet">
+      <i class="fas fa-chart-area"></i> Volatility (Std Dev)
+    </div>
+    <span class="card-tag">Rolling Window</span>
+  </div>
+  <div class="card-body">
+    <div class="chart-wrap chart-wrap-md">
+      <canvas id="volChart"></canvas>
+    </div>
+  </div>
+</div>
+    <div class="card">
+  <div class="card-header">
+    <div class="card-title ct-violet">
+      <i class="fas fa-chart-area"></i> Z-Score Anomaly
+    </div>
+    <span class="card-tag">Statistical Detection</span>
+  </div>
+  <div class="card-body">
+    <div class="chart-wrap chart-wrap-md">
+      <canvas id="zChart"></canvas>
+    </div>
+  </div>
+</div>
     <!-- Alert Feed -->
     <div class="card">
       <div class="card-header">
@@ -344,7 +410,35 @@
     </div>
 
   </div>
-
+    <div class="card" style="margin-top:20px;">
+  <div class="card-header">
+    <div class="card-title ct-green">
+      <i class="fas fa-table"></i> Packet Logs
+    </div>
+    <span class="card-tag">LIVE STREAM</span>
+  </div>
+  <div class="card-body" style="padding:0;">
+    <div class="log-table-wrap">
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Protocol</th>
+            <th>Size</th>
+            <th>Prediction</th>
+          </tr>
+        </thead>
+        <tbody id="logTableBody">
+          <tr>
+            <td colspan="5" style="text-align:center;color:var(--muted);padding:14px;">
+              Waiting for packets...
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </div>
 
 <footer>&copy; 2026 <span>QNTA</span> · Quantitative Network Traffic Analysis System · Built for secure networks</footer>
@@ -589,6 +683,108 @@ const emaChart = new Chart(emaCtx, {
   }
 });
 
+const volCtx = document.getElementById('volChart').getContext('2d');
+
+const volChart = new Chart(volCtx, {
+  type: 'line',
+  data: {
+    labels: [],
+    datasets: [{
+      label: 'Volatility',
+      data: [],
+      borderColor: '#8b5cf6',
+      backgroundColor: 'rgba(139,92,246,0.1)',
+      fill: true,
+      tension: 0.35,
+      pointRadius: 0
+    }]
+  },
+  options: {
+    responsive:true,
+    maintainAspectRatio:false,
+    plugins:{ legend:{ labels:{ color:'#c9d5e8' }}, tooltip: tooltipCfg },
+    scales:{
+      x:{ ticks:{ color:tickColor }, grid:{ color:gridColor }},
+      y:{ ticks:{ color:tickColor }, grid:{ color:gridColor }}
+    }
+  }
+});
+
+/* ══════════════════════════════
+   Z-SCORE CHART
+══════════════════════════════ */
+let zData = [];
+let zLabels = [];
+
+const zCtx = document.getElementById('zChart').getContext('2d');
+
+const zChart = new Chart(zCtx, {
+  type: 'line',
+  data: {
+    labels: zLabels,
+    datasets: [
+      {
+        label: 'Z-Score',
+        data: zData,
+        borderColor: '#8b5cf6',
+        backgroundColor: 'rgba(139,92,246,0.1)',
+        fill: true,
+        tension: 0.3,
+        pointRadius: 0
+      },
+      {
+        label: '+2 Threshold',
+        data: [],
+        borderColor: 'rgba(255,79,123,0.7)',
+        borderDash: [5,4],
+        pointRadius: 0
+      },
+      {
+        label: '-2 Threshold',
+        data: [],
+        borderColor: 'rgba(255,79,123,0.7)',
+        borderDash: [5,4],
+        pointRadius: 0
+      }
+    ]
+  },
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      legend: { labels: { color:'#c9d5e8' } },
+      tooltip: tooltipCfg
+    },
+    scales: {
+      x: { ticks:{ color:tickColor }, grid:{ color:gridColor } },
+      y: { ticks:{ color:tickColor }, grid:{ color:gridColor } }
+    }
+  }
+});
+
+function updateZChart(result) {
+  if (result.z_score === undefined) return;
+
+  const z = result.z_score;
+
+  if (zLabels.length > 40) {
+    zLabels.shift();
+    zData.shift();
+  }
+
+  zLabels.push(result.timestamp);
+  zData.push(z);
+
+  zChart.data.labels = zLabels;
+  zChart.data.datasets[0].data = zData;
+
+  // threshold lines
+  zChart.data.datasets[1].data = zLabels.map(() => 2);
+  zChart.data.datasets[2].data = zLabels.map(() => -2);
+
+  zChart.update('none');
+}
+
 window.updateEMAChart = function(result) {
   if (!result.ema_history) return;
   const h = result.ema_history;
@@ -605,7 +801,37 @@ window.updateEMAChart = function(result) {
 ══════════════════════════════ */
 let alertCount = 0;
 let lastPrediction = null;
+function addLogRow(result) {
+  const tbody = document.getElementById('logTableBody');
 
+  // Remove placeholder row
+  if (tbody.children.length === 1 && tbody.children[0].textContent.includes('Waiting')) {
+    tbody.innerHTML = '';
+  }
+
+  const row = document.createElement('tr');
+
+  const protoMap = {1:'ICMP',6:'TCP',17:'UDP'};
+  const proto = protoMap[result.protocol] || 'Other';
+
+  const pred = result.prediction || '—';
+  const conf = result.confidence ? (result.confidence*100).toFixed(1)+'%' : '—';
+
+  row.innerHTML = `
+    <td>${result.timestamp}</td>
+    <td>${proto}</td>
+    <td>${result.packet_size}</td>
+    <td class="${(pred==='BENIGN'||pred==='NORMAL') ? 'log-benign':'log-attack'}">${pred}</td>
+    <td>${conf}</td>
+  `;
+
+  tbody.prepend(row);
+
+  // limit rows
+  while (tbody.children.length > 25) {
+    tbody.lastChild.remove();
+  }
+}
 // Map ML prediction labels → severity + display
 function classifyPrediction(pred) {
   const p = (pred||'').toUpperCase();
@@ -780,7 +1006,16 @@ socket.on('packet_update', (result) => {
 
   // 4. EMA chart
   window.updateEMAChart(result);
+  updateZChart(result);
+  // VOLATILITY UPDATE
+    if (result.vol_history) {
+    const v = result.vol_history;
 
+    volChart.data.labels = v.map((_,i)=>`T${i}`);
+    volChart.data.datasets[0].data = [...v];
+
+    volChart.update('none');
+}
   // 5. Prediction badge
   const pred = result.prediction;
   updatePredBadge(pred);
@@ -791,6 +1026,8 @@ socket.on('packet_update', (result) => {
     if (alert) pushAlert(alert.sev, alert.msg, time);
     lastPrediction = pred;
   }
+    // 7. Log table
+  addLogRow(result);
 });
 
 socket.on('disconnect', () => {
