@@ -69,18 +69,10 @@ The trained model (`model.pkl`, `scaler.pkl`, `label_encoder.pkl`, `features.pkl
 
 **Kaggle dataset:** `<ADD YOUR KAGGLE DATASET LINK HERE>`
 
-**Option A — download manually:**
+**Download manually:**
 1. Open the Kaggle dataset link above.
 2. Click **Download** to get the archive.
 3. Unzip it and copy `model.pkl`, `scaler.pkl`, `label_encoder.pkl`, and `features.pkl` into the **root of this repo** — the same folder as `app.py`.
-
-**Option B — download via Kaggle API:**
-```bash
-pip install kaggle
-# Place your kaggle.json API token in ~/.kaggle/kaggle.json first (from your Kaggle account settings)
-kaggle datasets download -d <your-kaggle-username>/<your-dataset-name> -p . --unzip
-```
-This unzips the model files directly into the current folder. Make sure `model.pkl`, `scaler.pkl`, `label_encoder.pkl`, and `features.pkl` end up next to `app.py`, not in a subfolder — `app.py` loads them with a relative path (`joblib.load('model.pkl')`), so it must be run from the repo root with those files present.
 
 ### 4. Run the app
 
