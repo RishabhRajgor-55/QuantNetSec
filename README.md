@@ -2,8 +2,6 @@
 
 A real-time network intrusion detection system that combines statistical signal-processing techniques (EMA, rolling volatility, Z-score deviation, Shannon entropy) with a machine learning classifier to flag suspicious traffic — visualized on a live dashboard.
 
-Built for IT254, NITK Surathkal, by Group 6 (Hradayastha Thakran, Rishabh Hiten Rajgor, Saurabh).
-
 ## Dashboard
 
 ![Dashboard overview](images/dashboard_overview.png)
