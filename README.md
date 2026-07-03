@@ -6,9 +6,9 @@ Built for IT254, NITK Surathkal, by Group 6 (Hradayastha Thakran, Rishabh Hiten 
 
 ## Dashboard
 
-![Dashboard overview](images/dashboard-overview.png)
+![Dashboard overview](images/dashboard_overview.png)
 
-![Dashboard analytics view](images/dashboard-analytics.png)
+![Dashboard analytics view](images/dashboard_analytics.png)
 
 ## How it works
 
@@ -32,11 +32,16 @@ QuantNetSec/
 ├── index_mod.html          # dashboard frontend served by app.py
 ├── index.html
 ├── columns.py
+├── images/                 # dashboard screenshots used in this README
+│   ├── dashboard_overview.png
+│   └── dashboard_analytics.png
+├── frontend/                # frontend assets
 ├── packet_flow_gen/        # synthetic traffic generators for testing
 ├── quant/
 │   ├── ema/                 # EMA + Bollinger Band analysis
 │   └── volatility/           # rolling volatility analysis
-├── backend/                # earlier backend-only version (not used to run the demo)
+├── scripts/                 # helper/utility scripts
+├── backend/                 # earlier backend-only version (not used to run the demo)
 ├── requirements.txt
 └── model.pkl, scaler.pkl, label_encoder.pkl, features.pkl   # NOT in repo — see Setup below
 ```
@@ -62,12 +67,20 @@ pip install -r requirements.txt
 
 The trained model (`model.pkl`, `scaler.pkl`, `label_encoder.pkl`, `features.pkl`) is hosted on Kaggle instead of GitHub since it's too large for a normal git push.
 
-**Kaggle dataset:** `https://www.kaggle.com/datasets/rishabhrajgor/quantnetsec-models`
+**Kaggle dataset:** `<ADD YOUR KAGGLE DATASET LINK HERE>`
 
-**Download manually:**
+**Option A — download manually:**
 1. Open the Kaggle dataset link above.
 2. Click **Download** to get the archive.
 3. Unzip it and copy `model.pkl`, `scaler.pkl`, `label_encoder.pkl`, and `features.pkl` into the **root of this repo** — the same folder as `app.py`.
+
+**Option B — download via Kaggle API:**
+```bash
+pip install kaggle
+# Place your kaggle.json API token in ~/.kaggle/kaggle.json first (from your Kaggle account settings)
+kaggle datasets download -d <your-kaggle-username>/<your-dataset-name> -p . --unzip
+```
+This unzips the model files directly into the current folder. Make sure `model.pkl`, `scaler.pkl`, `label_encoder.pkl`, and `features.pkl` end up next to `app.py`, not in a subfolder — `app.py` loads them with a relative path (`joblib.load('model.pkl')`), so it must be run from the repo root with those files present.
 
 ### 4. Run the app
 
@@ -93,7 +106,6 @@ Then open **http://localhost:5000** in your browser. The dashboard will start st
 | `FileNotFoundError: model.pkl` | Model files aren't in the repo root — see Setup step 3 |
 | `Permission denied` / no packets captured | Run with `sudo` (Linux/macOS) or install Npcap and run as Administrator (Windows) |
 | Blank dashboard, no live updates | Check the terminal for sniffer errors — some network interfaces (e.g. VPN-only machines) may need `sniff(iface="...")` set explicitly in `app.py` |
-
 ## Contributors
 
 Rishabh Hiten Rajgor
