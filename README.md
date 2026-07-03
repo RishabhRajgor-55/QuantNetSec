@@ -6,9 +6,9 @@ Built for IT254, NITK Surathkal, by Group 6 (Hradayastha Thakran, Rishabh Hiten 
 
 ## Dashboard
 
-![Dashboard overview](docs/images/dashboard-overview.png)
+![Dashboard overview](images/dashboard-overview.png)
 
-![Dashboard analytics view](docs/images/dashboard-analytics.png)
+![Dashboard analytics view](images/dashboard-analytics.png)
 
 ## How it works
 
