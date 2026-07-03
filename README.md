@@ -97,5 +97,7 @@ Then open **http://localhost:5000** in your browser. The dashboard will start st
 ## Contributors
 
 Rishabh Hiten Rajgor
+
 Hradayastha Thakran
+
 Saurabh
