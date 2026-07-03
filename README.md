@@ -64,18 +64,10 @@ The trained model (`model.pkl`, `scaler.pkl`, `label_encoder.pkl`, `features.pkl
 
 **Kaggle dataset:** `https://www.kaggle.com/datasets/rishabhrajgor/quantnetsec-models`
 
-**Option A — download manually:**
+**Download manually:**
 1. Open the Kaggle dataset link above.
 2. Click **Download** to get the archive.
 3. Unzip it and copy `model.pkl`, `scaler.pkl`, `label_encoder.pkl`, and `features.pkl` into the **root of this repo** — the same folder as `app.py`.
-
-**Option B — download via Kaggle API:**
-```bash
-pip install kaggle
-# Place your kaggle.json API token in ~/.kaggle/kaggle.json first (from your Kaggle account settings)
-kaggle datasets download -d <your-kaggle-username>/<your-dataset-name> -p . --unzip
-```
-This unzips the model files directly into the current folder. Make sure `model.pkl`, `scaler.pkl`, `label_encoder.pkl`, and `features.pkl` end up next to `app.py`, not in a subfolder — `app.py` loads them with a relative path (`joblib.load('model.pkl')`), so it must be run from the repo root with those files present.
 
 ### 4. Run the app
 
@@ -101,3 +93,9 @@ Then open **http://localhost:5000** in your browser. The dashboard will start st
 | `FileNotFoundError: model.pkl` | Model files aren't in the repo root — see Setup step 3 |
 | `Permission denied` / no packets captured | Run with `sudo` (Linux/macOS) or install Npcap and run as Administrator (Windows) |
 | Blank dashboard, no live updates | Check the terminal for sniffer errors — some network interfaces (e.g. VPN-only machines) may need `sniff(iface="...")` set explicitly in `app.py` |
+
+## Contributors
+
+Rishabh Hiten Rajgor
+Hradayastha Thakran
+Saurabh
