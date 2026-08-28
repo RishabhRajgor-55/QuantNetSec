@@ -65,7 +65,7 @@ pip install -r requirements.txt
 
 The trained model (`model.pkl`, `scaler.pkl`, `label_encoder.pkl`, `features.pkl`) is hosted on Kaggle instead of GitHub since it's too large for a normal git push.
 
-**Kaggle dataset:** `<ADD YOUR KAGGLE DATASET LINK HERE>`
+**Kaggle dataset:** [QuantNetSec Models](https://www.kaggle.com/datasets/rishabhrajgor/quantnetsec-models)
 
 **Download manually:**
 1. Open the Kaggle dataset link above.
